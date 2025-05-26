@@ -12,10 +12,11 @@ export default function AuthModal({ onClose }) {
   const [formData, setFormData] = useState({
     email: "",
     name: "",
-    role: "",
+    role: "student",
     password: "",
     confirmPassword: "",
   });
+
   const [error, setError] = useState(null);
 
   const [loginUser] = useLoginUserMutation();
@@ -43,14 +44,12 @@ export default function AuthModal({ onClose }) {
     try {
       if (isSignIn) {
         const res = await loginUser({ email, password }).unwrap();
-        console.log("Login success:", res.user);
         if(res.user){
             dispatch(setUser(res.user))
         }
         onClose();
       } else {
         const res = await registerUser({ email, password, name, role }).unwrap();
-        console.log("Registration success:", res.user);
 
         if(res.user){
             dispatch(setUser(res.user))
