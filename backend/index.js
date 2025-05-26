@@ -12,7 +12,7 @@ const app = express();
 
 app.use(
     cors({
-      origin: "http://localhost:5173", // <-- Your Vite frontend URL
+        origin: ["http://localhost:5173", "https://classbuddy-id35.vercel.app"], // <-- Your Vite frontend URL
        credentials: true// <-- Optional, if you're using cookies/session
     })
   );
