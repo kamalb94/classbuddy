@@ -9,11 +9,9 @@ exports.createSession = async (req, res) => {
     allowAnonymous = true,
     maxFeedbackPerStudent = 1,
   } = req.body;
-  console.log('reqBody', req.body);
 
   // Assume `createdBy` is derived from logged-in user (e.g., req.user._id)
   const createdBy = req.user?._id;
-  console.log('createdby', createdBy)
 
   if (!title || !createdBy) {
     return res.status(400).json({ error: "Title and createdBy are required." });

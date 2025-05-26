@@ -37,17 +37,32 @@ async function signInUser(user, res) {
 // Register new user and auto login
 exports.registerUser = async (req, res) => {
   const { name, email, password, role } = req.body;
+
+  // Validate role if provided
+  if (role && !['student', 'instructor'].includes(role)) {
+    return res.status(400).json({
+      error: 'Invalid role. Valid roles are student or instructor.',
+      code: 'INVALID_ROLE',
+    });
+  }
+
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: 'Email already exists',
-        code: 'USER_ALREADY_EXISTS',  // your custom code
+        code: 'USER_ALREADY_EXISTS',
       });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword, role });
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: role || 'student', // Set default role to 'student' if not provided
+    });
+
     await newUser.save();
 
     // Auto-login new user by calling helper
@@ -61,6 +76,7 @@ exports.registerUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // Login existing user
 exports.loginUser = async (req, res) => {
