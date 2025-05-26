@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const sessionApi = createApi({
   reducerPath: 'sessionApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5700/api/sessions',
+    baseUrl: 'https://classbuddy.onrender.com/api/sessions',
     credentials: 'include', 
   }),
   tagTypes: ['Session'],
